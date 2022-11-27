@@ -1,7 +1,5 @@
 FROM registry.fedoraproject.org/f33/python3
 
-ENV STATIC_ROOT static
-
 # Add application sources with correct permissions for OpenShift
 USER 0
 ADD . .
