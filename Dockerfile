@@ -1,15 +1,15 @@
-FROM registry.fedoraproject.org/f33/python3
+FROM registry.access.redhat.com/ubi9/python-39:1-90
 
-# Add application sources with correct permissions for OpenShift
 USER 0
 ADD . .
-RUN chown -R 1001:0 ./
-USER 1001
 
 # Install the dependencies
-RUN pip install -r requirements.txt && \
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
     python manage.py collectstatic --noinput && \
     python manage.py migrate
+
+USER 1001
 
 # Run the application
 CMD python -m gunicorn django_example.wsgi:application --bind 0.0.0.0:8000 --workers 5
